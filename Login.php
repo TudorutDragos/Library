@@ -13,4 +13,36 @@
         );
     }
 
+    $query = sprintf(
+        "SELECT password FROM users WHERE userName='%s'", $db->real_escape_string($_POST['userName'])
+    );
+
+    $result = $connection->query($query);
+    $row = $result->fetch_object();
+
+    if($row!=null){
+        $hash=$row->hash;
+        if(password_verify($_POST['password'],$hash)){
+            $message='Login successful';
+        }
+        else{
+            $message='Login failed';
+        }
+    }
+    else{
+        $message='Login failed';
+    }
+
+    $connection->close();
+
 ?>
+
+<form method="post" action="">
+    <div>
+        <label for="name">User name</label> <input type="text">
+    </div>
+    <div>
+        <label for="password">Password</label> <input type="password">
+    </div>
+    <input type="submit" value="Login">
+</form>
