@@ -4,6 +4,7 @@
 
     $firstName = '';
     $lastName = '';
+    $userName = '';
     $email = '';
     $phoneNumber = '';
     $password = '';
@@ -22,6 +23,11 @@
             $ok=false;
         if(isset($_POST['lastName']) && $_POST['lastName']!=''){
             $lastName = $_POST['lastName'];
+        }
+        else
+            $ok=false;
+        if(isset($_POST['username']) && $_POST['username']!=''){
+            $userName = $_POST['username'];
         }
         else
             $ok=false;
@@ -49,14 +55,17 @@
                 DB_DATABASE
             );
 
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+
             $query = sprintf(
-                "INSERT INTO users (first_name, last_name, email, phone_number, password) 
-                VALUES ('%s', '%s', '%s', '%s', '%s')",
+                "INSERT INTO users (first_name, last_name, user_name, email, phone_number, password) 
+                VALUES ('%s', '%s', '%s', '%s', '%s', '%s')",
                 $connection->real_escape_string($firstName),
                 $connection->real_escape_string($lastName),
+                $connection->real_escape_string($userName),
                 $connection->real_escape_string($email),
                 $connection->real_escape_string($phoneNumber),
-                $connection->real_escape_string($password)
+                $connection->real_escape_string($hash)
             );
 
             $connection->query($query);
@@ -77,15 +86,16 @@ First name: <input type="text" name="firstName" value="<?php
 Last name: <input type="text" name="lastName" value="<?php
     echo htmlspecialchars($lastName, ENT_QUOTES);
     ?>"><br>
+User name: <input type="text" name="username" value="<?php
+    echo htmlspecialchars($userName, ENT_QUOTES);
+    ?>"><br>
 Email: <input type="text" name="email" value="<?php
     echo htmlspecialchars($email, ENT_QUOTES);
     ?>"><br>
 Phone number: <input type="text" name="phoneNumber" value="<?php
     echo htmlspecialchars($phoneNumber, ENT_QUOTES);
     ?>"><br>
-Password: <input type="password" name="password" value="<?php
-    echo htmlspecialchars($password, ENT_QUOTES);
-    ?>"><br>
+Password: <input type="password" name="password"><br>
     <input type="submit" name="submit" value="Register">
     <input type="submit" name="login" value="Login">
 </form>
