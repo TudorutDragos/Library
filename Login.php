@@ -4,6 +4,7 @@
 
     $message = '';
 
+    session_start();
 
     if(isset($_POST['name']) && isset($_POST['password'])){
         $connection = new mysqli(
@@ -14,7 +15,7 @@
         );
 
         $query = sprintf(
-            "SELECT password FROM users WHERE user_name='%s'", $connection->real_escape_string($_POST['name'])
+            "SELECT * FROM users WHERE user_name='%s'", $connection->real_escape_string($_POST['name'])
         );
 
         $result = $connection->query($query);
@@ -24,6 +25,14 @@
             $hash=$row->password;
             if(password_verify($_POST['password'],$hash)){
                 $message='Login successful';
+
+                $_SESSION['id'] = $row->id;
+                if($row->is_admin == 1){
+                    header("Location: MainPage.php");
+                }
+                else{
+                    header("Location: MainPageUser.php");
+                }
             }
             else{
                 $message='Login failed';
