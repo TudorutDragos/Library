@@ -2,7 +2,7 @@
 
     require 'Functions.php';
     
-    $result = SelectAllBooks();
+    $result = GetAllBooks();
     
     printf("Books:\n");
     foreach($result as $row){
@@ -14,22 +14,21 @@
         );
     }
 
-    $admin = true;
-
-    //$user = GetUserById(id_user_din_login);
     printf("Users:\n");
-    if($admin){
-        $result = SelectAllUsers();
+    $result = GetAllUsers();
 
-        foreach($result as $row){
-            printf(
-                '<li>%s %s, %s, %s</li>',
-                htmlspecialchars($row['first_name'], ENT_QUOTES),
-                htmlspecialchars($row['last_name'], ENT_QUOTES),
-                htmlspecialchars($row['email'], ENT_QUOTES),
-                htmlspecialchars($row['password'], ENT_QUOTES)
-            );
-        }
+    foreach($result as $row){
+        printf(
+            '<li>%s %s, %s, %s</li>',
+            htmlspecialchars($row['first_name'], ENT_QUOTES),
+            htmlspecialchars($row['last_name'], ENT_QUOTES),
+            htmlspecialchars($row['email'], ENT_QUOTES),
+            htmlspecialchars($row['phone_number'], ENT_QUOTES)
+        );
     }
 
 ?>
+
+<form method="post" action="Export.php">
+    <input type="submit" name="export_excel" value="Export to Excel">
+</form>
