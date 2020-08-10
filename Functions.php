@@ -2,7 +2,6 @@
 
     require 'DB_config.php';
 
-
     //Helper function for connecting to the database
     function ConnectToDataBase(){
         $connection = new mysqli(
