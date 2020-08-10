@@ -2,6 +2,8 @@
 
     require 'DB_config.php';
 
+
+    //Helper function for connecting to the database
     function ConnectToDataBase(){
         $connection = new mysqli(
             DB_SERVER,
@@ -13,6 +15,7 @@
         return $connection;
     }
 
+    //Get all the books from the database
     function GetAllBooks(){
         
         $db = ConnectToDataBase();
@@ -23,6 +26,7 @@
         return $result;
     }
 
+    //Get all the users from the database
     function GetAllUsers(){
 
         $db = ConnectToDataBase();
@@ -33,6 +37,7 @@
         return $result;
     }
 
+    //Get all the informations about a book by the user who rent that book
     function GetBooksByUserId($userId){
         $db = ConnectToDataBase();
         $query = "SELECT * FROM books WHERE user_id=$userId";
@@ -42,6 +47,7 @@
         return $result;
     }
 
+    //Get all the informations about a user by his id
     function GetUserById($id){
         $db = ConnectToDataBase();
         $query = "SELECT * FROM users WHERE id=$id";
